@@ -1,9 +1,13 @@
 <resources>
-    <string name="app_name">Parcial2_00137316</string>
+    <string name="app_name">Games's News</string>
+    <string name="app_name1">Log in</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="incorrecto">Credenciales Incorrectas</string>
+    <string name="usuario">Usuario</string>
+    <string name="contraseña">Contraseña</string>
 </resources>

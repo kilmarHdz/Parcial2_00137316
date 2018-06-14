@@ -1,7 +1,9 @@
-package com.cabrera.parcial2_00137316;
+package com.cabrera.parcial2_00137316.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.cabrera.parcial2_00137316.R;
 
 public class Log_In extends AppCompatActivity {
 

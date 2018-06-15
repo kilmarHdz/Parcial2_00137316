@@ -5,84 +5,92 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
+import com.cabrera.parcial2_00137316.Entitys.Favorito;
+import com.cabrera.parcial2_00137316.Entitys.News;
+import com.cabrera.parcial2_00137316.Entitys.Players;
+import com.cabrera.parcial2_00137316.Entitys.User;
+import com.cabrera.parcial2_00137316.Entitys.Categoria;
+import com.cabrera.parcial2_00137316.Repository.Repository;
+
 import java.util.List;
 
 public class GameModel extends AndroidViewModel {
-    private GameNewsRepository gameNewsRepository;
-    private LiveData<List<New>> newList;
-    private LiveData<List<Player>> playerList;
+    private Repository repository;
+    private LiveData<List<News>> newList;
+    private LiveData<List<Players>> playerList;
     private LiveData<User> currentUser;
 
     public GameModel(@NonNull Application application) {
         super(application);
-        gameNewsRepository = new GameNewsRepository(application);
-        newList = gameNewsRepository.getAllNews();
-        playerList = gameNewsRepository.getAllPlayer();
+        repository = new Repository(application);
+        newList = repository.getAllNews();
+        playerList = repository.getAllPlayer();
     }
 
     public void refreshNews(){
-        gameNewsRepository.refreshNews();
+        repository.refreshNews();
     }
     public void refreshNewsListID(){
-        gameNewsRepository.refreshFavoritesListID();
+        repository.refreshFavoritesListID();
     }
-    public void refreshTopPlayers(){gameNewsRepository.refreshTopPlayers();}
+    public void refreshTopPlayers(){
+        repository.refreshTopPlayers();}
     public void refreshCurrentUser(){
-        gameNewsRepository.refreshCurrentUser();
+        repository.refreshCurrentUser();
     }
 
     public void deleteAllUsers(){
-        gameNewsRepository.deleteAllUsers();
+        repository.deleteAllUsers();
     }
 
-    public LiveData<List<New>> getFavoriteObjectNews(){
-        return gameNewsRepository.getFavoritesObjectNews();
+    public LiveData<List<News>> getFavoriteObjectNews(){
+        return repository.getFavoritesObjectNews();
     }
     public void updateNewFaState(String value,String idNew){
-        gameNewsRepository.updateFavNewState(value,idNew);
+        repository.updateFavNewState(value,idNew);
     }
 
     public void addFavoriteNew(String idUser,String idNew){
-        gameNewsRepository.addFavoriteNew(idUser,idNew);
+        repository.addFavoriteNew(idUser,idNew);
     }
     public void removeFavoriteNew(String idUser,String idNew){
-        gameNewsRepository.removeFavoriteNew(idUser,idNew);
+        repository.removeFavoriteNew(idUser,idNew);
     }
-    public void addToFavList(Favorite favorite){
-        gameNewsRepository.exectInserFavorite(favorite);
+    public void addToFavList(Favorito favorite){
+        repository.exectInserFavorite(favorite);
     }
 
-    public LiveData<List<Favorite>> getFavorieList(){
-        return gameNewsRepository.getAllFavorites();
+    public LiveData<List<Favorito>> getFavorieList(){
+        return repository.getAllFavorites();
     }
     public LiveData<User> getCurrentUser(){
-        currentUser = gameNewsRepository.getCurrentUser();
+        currentUser = repository.getCurrentUser();
         return currentUser;
     }
 
-    public LiveData<List<New>> getAllNews() {
+    public LiveData<List<News>> getAllNews() {
         return newList;
     }
 
-    public LiveData<List<New>> getNewsByGame(String game){
-        newList = gameNewsRepository.getNewsByGame(game);
+    public LiveData<List<News>> getNewsByGame(String game){
+        newList = repository.getNewsByGame(game);
         return newList;
     }
-    public LiveData<New> getNew(String id){
-        return gameNewsRepository.getNew(id);
+    public LiveData<News> getNew(String id){
+        return repository.getNew(id);
     }
 
-    public LiveData<List<Player>> getPlayersByGame(String game){
-        playerList = gameNewsRepository.getPlayersByGame(game);
+    public LiveData<List<Players>> getPlayersByGame(String game){
+        playerList = repository.getPlayersByGame(game);
         return playerList;
     }
-    public LiveData<List<Player>> getAllPlayers(){
-        playerList = gameNewsRepository.getAllPlayer();
+    public LiveData<List<Players>> getAllPlayers(){
+        playerList = repository.getAllPlayer();
         return playerList;
     }
 
-    public LiveData<List<CategoryGame>> getGameList() {
-        LiveData<List<CategoryGame>> gameList = gameNewsRepository.getAllGames();
+    public LiveData<List<Categoria>> getGameList() {
+        LiveData<List<Categoria>> gameList = repository.getAllGames();
         return gameList;
     }
 }

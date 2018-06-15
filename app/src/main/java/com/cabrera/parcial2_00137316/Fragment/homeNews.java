@@ -1,4 +1,4 @@
-package com.cabrera.parcial2_00137316;
+package com.cabrera.parcial2_00137316.Fragment;
 
 
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.cabrera.parcial2_00137316.R;
 
 
 /**

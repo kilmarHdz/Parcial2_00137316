@@ -61,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="0.9"
+                android:inputType="number"
                 android:textColor="@color/text_white"
                 android:hint="@string/usuario" />
         </LinearLayout>
@@ -85,7 +86,7 @@
                 android:layout_weight="0.9"
                 android:textColor="@color/text_white"
                 android:hint="@string/contraseña"
-                android:inputType="textPassword" />
+                android:inputType="textPassword |number" />
         </LinearLayout>
 
         <Button

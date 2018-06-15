@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refreshLayoutNews"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.homeNews">
+    tools:context=".Fragment.Top"
+    android:id="@+id/refresh_content_players">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_news_general"
+        android:id="@+id/recyclerview_top_players"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
 
 </android.support.v4.widget.SwipeRefreshLayout>

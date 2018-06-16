@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cabrera.parcial2_00137316.Entitys.Players;
 import com.cabrera.parcial2_00137316.R;
 import com.squareup.picasso.Picasso;
 
@@ -19,7 +20,7 @@ import java.util.List;
 public class AdapterPlayer extends RecyclerView.Adapter<AdapterPlayer.PlayersViewHolder>{
     View view;
     private final LayoutInflater layoutInflater;
-    private List<Player> playerList;
+    private List<Players> playerList;
     private Context context;
 
 
@@ -35,19 +36,19 @@ public class AdapterPlayer extends RecyclerView.Adapter<AdapterPlayer.PlayersVie
             container = itemView.findViewById(R.id.player_container);
         }
     }
-    public PlayersAdapter(Context context){
+    public AdapterPlayer(Context context){
         layoutInflater = LayoutInflater.from(context);
         this.context = context;
 
     }
-    public void fillPlayers(List<Player> playerList){
-        this.playerList = playerList;
+    public void fillPlayers(List<Players> playerList){
+      this.playerList = playerList;
         notifyDataSetChanged();
     }
     @NonNull
     @Override
     public PlayersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = layoutInflater.inflate(R.layout.player_top_item,parent,false);
+        view = layoutInflater.inflate(R.layout.top_player,parent,false);
         return new PlayersViewHolder(view);
     }
 
@@ -60,7 +61,7 @@ public class AdapterPlayer extends RecyclerView.Adapter<AdapterPlayer.PlayersVie
             @Override
             public void onClick(View v) {
                 final Dialog playerDialog = new Dialog(context);
-                playerDialog.setContentView(R.layout.dialog_top_player_info);
+                playerDialog.setContentView(R.layout.player_info);
                 playerDialog.setTitle(playerList.get(position).getName());
                 ImageView avatarDialog = playerDialog.findViewById(R.id.avatar_player_dialog);
                 TextView nameDialog = playerDialog.findViewById(R.id.text_name_player_dialog);

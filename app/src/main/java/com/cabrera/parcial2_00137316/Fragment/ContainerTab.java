@@ -14,19 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cabrera.parcial2_00137316.Adapter.AdapterNews;
+import com.cabrera.parcial2_00137316.Adapter.AdapterPlayer;
+import com.cabrera.parcial2_00137316.Adapter.ViewPagerAdapter;
+import com.cabrera.parcial2_00137316.Entitys.News;
+import com.cabrera.parcial2_00137316.Entitys.Players;
 import com.cabrera.parcial2_00137316.Modelo.GameModel;
 import com.cabrera.parcial2_00137316.R;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ContainerTab.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ContainerTab#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ContainerTab extends Fragment {
 
     private String game;
@@ -34,8 +31,8 @@ public class ContainerTab extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter viewPagerAdapter;
-    private NewsAdapter newsAdapter;
-    private PlayersAdapter playersAdapter;
+    private AdapterNews newsAdapter;
+    private AdapterPlayer playersAdapter;
 
 
     public ContainerTab() {
@@ -55,17 +52,17 @@ public class ContainerTab extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        model = ViewModelProviders.of(this).get(ContainerTab.class);
-        model.getNewsByGame(game).observe(this, new Observer<List<New>>() {
+        model = ViewModelProviders.of(this).get(GameModel.class);
+        model.getNewsByGame(game).observe(this, new Observer<List<News>>() {
             @Override
-            public void onChanged(@Nullable List<New> newList) {
+            public void onChanged(@Nullable List<News> newList) {
                 newsAdapter.fillNews(newList);
 
             }
         });
-        model.getPlayersByGame(game).observe(this, new Observer<List<Player>>() {
+        model.getPlayersByGame(game).observe(this, new Observer<List<Players>>() {
             @Override
-            public void onChanged(@Nullable List<Player> playerList) {
+            public void onChanged(@Nullable List<Players> playerList) {
                 playersAdapter.fillPlayers(playerList);
             }
         });
@@ -80,18 +77,18 @@ public class ContainerTab extends Fragment {
         tabLayout = view.findViewById(R.id.tablayout_container);
         viewPager = view.findViewById(R.id.viewpager_fragment_container);
 
-        newsAdapter = new NewsAdapter(view.getContext());
-        playersAdapter = new PlayersAdapter(view.getContext());
+        newsAdapter = new AdapterNews(view.getContext());
+        playersAdapter = new AdapterPlayer(view.getContext());
 
         viewPager.setAdapter(viewPagerAdapter);
 
-        //viewPagerAdapter.addFragment(NewsByGameFragment.newInstance(newsAdapter),"News");
-        //viewPagerAdapter.addFragment(TopPlayerFragment.newInstance(playersAdapter),"TOP PLAYERS");
+        viewPagerAdapter.addFragment(NewsGames.newInstance(newsAdapter),"News");
+        viewPagerAdapter.addFragment(Top.newInstance(playersAdapter),"TOP PLAYERS");
 
         viewPagerAdapter.notifyDataSetChanged();
 
         tabLayout.setupWithViewPager(viewPager);
-        //viewPager.setCurrentItem(0);
+        viewPager.setCurrentItem(0);
         return view;
     }
 }

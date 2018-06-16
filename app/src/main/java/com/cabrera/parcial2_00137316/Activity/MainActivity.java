@@ -37,6 +37,11 @@ import com.cabrera.parcial2_00137316.Entitys.Favorito;
 import com.cabrera.parcial2_00137316.Entitys.News;
 import com.cabrera.parcial2_00137316.Entitys.Token;
 import com.cabrera.parcial2_00137316.Entitys.User;
+import com.cabrera.parcial2_00137316.Fragment.ContainerTab;
+import com.cabrera.parcial2_00137316.Fragment.Fav;
+import com.cabrera.parcial2_00137316.Fragment.Top;
+import com.cabrera.parcial2_00137316.Fragment.homeNews;
+import com.cabrera.parcial2_00137316.Interfaz.ToolDao;
 import com.cabrera.parcial2_00137316.Modelo.GameModel;
 import com.cabrera.parcial2_00137316.R;
 import com.squareup.picasso.Picasso;
@@ -45,10 +50,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        MainNewsFragment.MainSetters ,
-        FavoriteNewFragment.FavoriteNewsTools,
-        TopPlayerFragment.TopPlayersTools,
-        NewTools{
+        homeNews.MainSetters ,
+        Fav.FavoriteNewsTools,
+        Top.TopPlayersTools,
+        ToolDao {
 
 
     public static Token securityToken;
@@ -86,14 +91,14 @@ public class MainActivity extends AppCompatActivity
         executeLists();
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.screen_fragment, new MainNewsFragment());
+        ft.replace(R.id.pantalla_fragment, new homeNews());
         ft.commit();
 
     }
 
     private void executeLists() {
-        newsAdapter = new NewsAdapter(this);
-        viewModel = ViewModelProviders.of(this).get(GameNewsViewModel.class);
+        newsAdapter = new AdapterNews(this);
+        viewModel = ViewModelProviders.of(this).get(GameModel.class);
 
         viewModel.getCurrentUser();
         viewModel.refreshNews();
@@ -112,9 +117,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        viewModel.getGameList().observe(this, new Observer<List<CategoryGame>>() {
+        viewModel.getGameList().observe(this, new Observer<List<Categoria>>() {
             @Override
-            public void onChanged(@Nullable List<CategoryGame> categoryGames) {
+            public void onChanged(@Nullable List<Categoria> categoryGames) {
                 if(gameList!=null){
                     gameList.clear();
                 }
@@ -122,33 +127,33 @@ public class MainActivity extends AppCompatActivity
                 addMenuItemInNavMenuDrawer();
             }
         });
-        viewModel.getFavorieList().observe(this, new Observer<List<Favorite>>() {
+        viewModel.getFavorieList().observe(this, new Observer<List<Favorito>>() {
             @Override
-            public void onChanged(@Nullable List<Favorite> favorites) {
+            public void onChanged(@Nullable List<Favorito> favorites) {
                 if(idNewList!=null) {
                     idNewList.clear();
                 }
                 idNewList = favorites;
                 if (favorites != null) {
-                    for(Favorite value:favorites){
+                    for(Favorito value:favorites){
                         viewModel.updateNewFaState("1",value.get_id());
                         Log.d("ID_FAVS",value.get_id());
                     }
                 }
             }
         });
-        viewModel.getAllNews().observe(this, new Observer<List<New>>() {
+        viewModel.getAllNews().observe(this, new Observer<List<News>>() {
             @Override
-            public void onChanged(@Nullable List<New> newList) {
+            public void onChanged(@Nullable List<News> newList) {
                 if(newList!=null) {
                     newsAdapter.fillNews(newList);
                 }
             }
         });
 
-        viewModel.getFavoriteObjectNews().observe(this, new Observer<List<New>>() {
+        viewModel.getFavoriteObjectNews().observe(this, new Observer<List<News>>() {
             @Override
-            public void onChanged(@Nullable List<New> newList) {
+            public void onChanged(@Nullable List<News> newList) {
                 if(newList!=null) {
                     if(favoritesNewList!=null) {
                         favoritesNewList.clear();
@@ -176,7 +181,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_tab_news_fragment, menu);
         return true;
     }
 
@@ -197,11 +202,11 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         if(id==R.id.News_menu){
             actionBar.setTitle(R.string.app_name);
-            fragment = new MainNewsFragment();
+            fragment = new homeNews();
 
         }
         if(id == R.id.favorites){
-            fragment = FavoriteNewFragment.newInstance(favoritesNewList);
+            fragment = Fav.newInstance(favoritesNewList);
         }
         if(id == R.id.logout){
             viewModel.deleteAllUsers();
@@ -214,7 +219,7 @@ public class MainActivity extends AppCompatActivity
                 if (id == ID_INFLATED_MENU + i) {
                     actionBar.setElevation(0);
                     actionBar.setTitle(gameList.get(i).getCategoryName());
-                    fragment = NewsContainerFragment.newInstance(gameList.get(i).getCategoryName());
+                    fragment = ContainerTab.newInstance(gameList.get(i).getCategoryName());
                     break;
                 }
             }
@@ -222,7 +227,7 @@ public class MainActivity extends AppCompatActivity
 
         if(fragment!=null){
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.screen_fragment, fragment);
+            ft.replace(R.id.pantalla_fragment, fragment);
             ft.commit();
         }
 
@@ -234,7 +239,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         username = headerView.findViewById(R.id.username_bar);
-        created_date = headerView.findViewById(R.id.date_created_bar);
         avatar = headerView.findViewById(R.id.avatar_user_bar);
 
         username.setText(user.getUsername());
@@ -310,7 +314,7 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Token", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear().apply();
-        startActivity(new Intent(MainActivity.this,LogginActivity.class));
+        startActivity(new Intent(MainActivity.this,Log_In.class));
     }
 
 }
